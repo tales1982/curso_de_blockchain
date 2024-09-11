@@ -115,7 +115,7 @@
   "sourceMap": "58:1659:0:-;;;246:322;8:9:-1;5:2;;;30:1;27;20:12;5:2;246:322:0;553:10;545:5;;:18;;;;;;;;;;;;;;;;;;58:1659;;;;;;",
   "deployedSourceMap": "58:1659:0:-;;;;8:9:-1;5:2;;;30:1;27;20:12;5:2;58:1659:0;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;751:441;;;;;;13:2:-1;8:3;5:11;2:2;;;29:1;26;19:12;2:2;751:441:0;;;;;;;;;;;;;;;;;;;;;;;;;;;;:::i;:::-;;1632:83;;;;;;13:2:-1;8:3;5:11;2:2;;;29:1;26;19:12;2:2;1632:83:0;;;;;;;;;;;;;;;;;;;:::i;:::-;;;;;;;;;;;;;;;;;;;221:20;;;:::i;:::-;;;;;;;;;;;;;;;;;;;;;;;1290:111;;;;;;13:2:-1;8:3;5:11;2:2;;;29:1;26;19:12;2:2;1290:111:0;;;;;;;;;;;;;;;;;;;;;;;;;;;;:::i;:::-;;751:441;1049:5;:12;1055:5;;;;;;;;;;;1049:12;;;;;;;;;;;;;;;;1039:6;:22;;1031:53;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;1106:6;1090:5;:12;1096:5;;;;;;;;;;;1090:12;;;;;;;;;;;;;;;;:22;;;;;;;;;;;1137:6;1118:5;:15;1124:8;1118:15;;;;;;;;;;;;;;;;:25;;;;;;;;;;;1154:33;1163:5;;;;;;;;;;;1170:8;1180:6;1154:33;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;751:441;;:::o;1632:83::-;1680:4;1699:5;:11;1705:4;1699:11;;;;;;;;;;;;;;;;1692:18;;1632:83;;;:::o;221:20::-;;;;;;;;;;;;;:::o;1290:111::-;1458:5;;;;;;;;;;;1444:19;;:10;:19;;;1436:56;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;1385:12;1368:5;:13;1374:6;1368:13;;;;;;;;;;;;;;;;:29;;;;;;;;;;;1290:111;;:::o",
   "source": "// SPDX-License-Identifier: MIT\npragma solidity ^0.5.16;\n\ncontract GiftCoin {\n  // keep track of all the addresses that have coins\n  mapping (address => uint) coins;\n  // keep track of who the owner of this contract is\n  address public owner;\n\n  constructor() public {\n    // When this coin is initially deployed, we'll set that account to be the user\n    // msg is a globally available variable that will tell us information about this current contract call\n    // https://solidity.readthedocs.io/en/develop/units-and-global-variables.html\n    owner = msg.sender;\n  }\n\n  // This is an event we'll broadcast when a gift is successfully sent from one account to another\n  event GiftSent(\n      address from,\n      address to,\n      uint amount\n  );\n\n  function sendGift(address receiver, uint amount) public {\n    // We need to take coins from the account that sent this and gift them to the reciever address\n    // only if the account that sent this has sufficient funds\n    // If successful we'll broadcast the GiftSent event\n    require(amount <= coins[owner], \"Insufficient funds\");\n    coins[owner] -= amount;\n    coins[receiver] += amount;\n    emit GiftSent(owner, receiver, amount);\n  }\n\n  // this function will create new coins and should be reserved for only the owner to call it\n  function mintCoins(address target, uint256 mintedAmount) public onlyOwner {\n\t\tcoins[target] += mintedAmount;\n\t}\n\n    modifier onlyOwner {\n        require(msg.sender == owner, \"Only the owner Can do it\");\n        // The _ is a placeholder for the body of the modified method\n    _;\n    }\n\n  // returns the balance of the address in question\n  function balanceOf(address addr) public returns(uint) {\n    return coins[addr];\n  }\n}",
-  "sourcePath": "/home/tales/Documents/GITHUB/Curso_de_blockchain/00_strat_in_truffle/contracts/GiftCoin.sol",
+  "sourcePath": "/home/tales/Documents/GITHUB/curso_de_blockchain/00_strat_in_truffle/contracts/GiftCoin.sol",
   "ast": {
     "absolutePath": "project:/contracts/GiftCoin.sol",
     "exportedSymbols": {
@@ -2715,12 +2715,12 @@
     "5777": {
       "events": {},
       "links": {},
-      "address": "0x9CbeDD9d4602885Ac51242113b39c588aF18F084",
-      "transactionHash": "0x5df3061348f7d0ddfa2b90cebeaa6e1eb5b59149f23b1599b4fb52bcf2d04aba"
+      "address": "0x77E34004339f128A014B953d9F495692C598299a",
+      "transactionHash": "0x2e5b2440e03d31a10d4528b94f017b5797db75177eef272ce3a17b85e1c28029"
     }
   },
   "schemaVersion": "3.4.16",
-  "updatedAt": "2024-09-11T06:24:56.466Z",
+  "updatedAt": "2024-09-11T07:05:44.105Z",
   "networkType": "ethereum",
   "devdoc": {
     "methods": {}
